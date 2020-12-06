@@ -47,8 +47,14 @@ public class Main {
 
         if(indexList.get(0) - substringStartBuffer < 0)
             substringStartBuffer = 0;
+        else
+            substringStartBuffer = indexList.get(0) - substringStartBuffer;
+
         if(indexList.get(indexList.size() - 1) + substringEndBuffer > genome.length())
-            substringEndBuffer = genome.length() - indexList.get(indexList.size() - 1);
+            substringEndBuffer = genome.length() - 1;
+        else
+            substringEndBuffer = indexList.get(indexList.size() - 1) + substringEndBuffer;
+
         String genomeSubstring = genome.substring(substringStartBuffer, substringEndBuffer);
 
         System.out.println(genomeSubstring);
