@@ -15,6 +15,9 @@ public class Main {
         String line = "";
         StringBuilder genome = new StringBuilder();
 
+        int substringStartBuffer = 200;
+        int substringEndBuffer = 200;
+
         try
         {
             scanner = new Scanner(new File("C:\\Users\\david\\Downloads\\sequence.fasta"));
@@ -40,14 +43,23 @@ public class Main {
             e.printStackTrace();
         }
 
-        minSkew(genome);
+        ArrayList<Integer> indexList = minSkew(genome);
+
+        if(indexList.get(0) - substringStartBuffer < 0)
+            substringStartBuffer = 0;
+        if(indexList.get(indexList.size() - 1) + substringEndBuffer > genome.length())
+            substringEndBuffer = genome.length() - indexList.get(indexList.size() - 1);
+        String genomeSubstring = genome.substring(substringStartBuffer, substringEndBuffer);
+
+        System.out.println(genomeSubstring);
+
     }
 
-    private static void minSkew(StringBuilder input)
+    private static ArrayList<Integer> minSkew(StringBuilder input)
     {
         int skew = 0;
         int minSkew = 0;
-        List<Integer> indexList = new ArrayList<Integer>();
+        ArrayList<Integer> indexList = new ArrayList<Integer>();
 
         //Calculate skew and find minSkew
         for(int i = 0; i < input.length(); i++)
@@ -74,5 +86,7 @@ public class Main {
         {
             System.out.println(indexList.get(i));
         }
+
+        return indexList;
     }
 }
