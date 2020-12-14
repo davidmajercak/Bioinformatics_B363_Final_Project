@@ -1,12 +1,11 @@
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.*;
 
-public class Main {
+public class Main
+{
+
+    static HashMap<String, ArrayList<Integer>> kmers = new HashMap<>();
 
     public static void main(String[] args)
     {
@@ -19,39 +18,39 @@ public class Main {
         int substringStartBuffer = 200;
         int substringEndBuffer = 200;
 
+        int kmerSize = 9;
+
         try
         {
             scanner = new Scanner(new File("C:\\Users\\david\\Downloads\\sequence.fasta"));
-            while(scanner.hasNextLine())
+            while (scanner.hasNextLine())
             {
                 line = scanner.nextLine();
-                if(isFirstLine)
+                if (isFirstLine)
                 {
                     genomeName = line;
                     isFirstLine = false;
                     continue;
-                }
-                else
+                } else
                 {
                     genome.append(line);
                 }
             }
 
             scanner.close();
-        }
-        catch(IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
 
         ArrayList<Integer> indexList = minSkew(genome);
 
-        if(indexList.get(0) - substringStartBuffer < 0)
+        if (indexList.get(0) - substringStartBuffer < 0)
             substringStartBuffer = 0;
         else
             substringStartBuffer = indexList.get(0) - substringStartBuffer;
 
-        if(indexList.get(indexList.size() - 1) + substringEndBuffer > genome.length())
+        if (indexList.get(indexList.size() - 1) + substringEndBuffer > genome.length())
             substringEndBuffer = genome.length() - 1;
         else
             substringEndBuffer = indexList.get(indexList.size() - 1) + substringEndBuffer;
@@ -59,6 +58,45 @@ public class Main {
         String genomeSubstring = genome.substring(substringStartBuffer, substringEndBuffer);
 
         System.out.println(genomeSubstring);
+
+        InitializeKMers(genomeSubstring, kmerSize);
+        printKmers();
+
+    }
+
+    //Adds all kmers of size kmerSize to a Map (key == kmer, value == arraylist of indexes where the kmer occurs in genomeSubstring)
+    private static void InitializeKMers(String genomeSubstring, int kmerSize)
+    {
+        for(int i = 0; i < genomeSubstring.length() - kmerSize + 1; i++)
+        {
+            String kmer = genomeSubstring.substring(i, i + kmerSize);
+
+            //If key already exists, add i to the arraylist corresponding to this kmer
+            if(kmers.containsKey(kmer))
+            {
+                kmers.get(kmer).add(i);
+            }
+            //If key does not yet exist, create an arrayList, add i to it, and then place the list into the map
+            else
+            {
+                ArrayList<Integer> kmerList = new ArrayList<>();
+                kmerList.add(i);
+                kmers.put(kmer, kmerList);
+            }
+        }
+    }
+
+    private static void printKmers()
+    {
+        for (String key : kmers.keySet())
+        {
+            System.out.print(key + " ");
+
+            ArrayList list = kmers.get(key);
+            System.out.print(list.toString());
+
+            System.out.println();
+        }
 
     }
 
