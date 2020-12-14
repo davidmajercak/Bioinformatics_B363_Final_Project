@@ -73,21 +73,21 @@ public class Main
     private static void FindMotifs(int minOccurences)
     {
         int numberOfOccurences = 0;
-        int occurencesInKmers = 0;
-        int occurencesInReverseComplements = 0;
+        int kmerOccurences = 0;
+        int reverseComplementOccurences = 0;
 
         for (String key : kmers.keySet())
         {
             numberOfOccurences = 0;
-            occurencesInKmers = 0;
-            occurencesInReverseComplements = 0;
+            kmerOccurences = 0;
+            reverseComplementOccurences = 0;
 
             if(kmers.containsKey(key))
-                occurencesInKmers = kmers.get(key).size();
-            if(reverseComplements.containsKey(key))
-                occurencesInReverseComplements = reverseComplements.get(key).size();
+                kmerOccurences = kmers.get(key).size();
+            if(kmers.containsKey(complement(key)))
+                reverseComplementOccurences += kmers.get(complement(key)).size();
 
-            numberOfOccurences = occurencesInKmers + occurencesInReverseComplements;
+            numberOfOccurences = kmerOccurences + reverseComplementOccurences;
 
             if(numberOfOccurences >= minOccurences)
             {
@@ -114,30 +114,6 @@ public class Main
                 ArrayList<Integer> kmerList = new ArrayList<>();
                 kmerList.add(i);
                 kmers.put(kmer, kmerList);
-            }
-        }
-
-        InitializeReverseComplements(genomeSubstring, kmerSize);
-    }
-
-    //Adds all kmers of size kmerSize to a Map (key == kmer, value == arraylist of indexes where the kmer occurs in genomeSubstring)
-    private static void InitializeReverseComplements(String genomeSubstring, int kmerSize)
-    {
-        for(int i = 0; i < genomeSubstring.length() - kmerSize + 1; i++)
-        {
-            String reverseComplement = complement(genomeSubstring.substring(i, i + kmerSize));
-
-            //If key already exists, add i to the arraylist corresponding to this kmer
-            if(reverseComplements.containsKey(reverseComplement))
-            {
-                reverseComplements.get(reverseComplement).add(i);
-            }
-            //If key does not yet exist, create an arrayList, add i to it, and then place the list into the map
-            else
-            {
-                ArrayList<Integer> complementList = new ArrayList<>();
-                complementList.add(i);
-                reverseComplements.put(reverseComplement, complementList);
             }
         }
     }
