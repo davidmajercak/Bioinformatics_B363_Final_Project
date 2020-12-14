@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class Main {
 
@@ -95,4 +96,37 @@ public class Main {
 
         return indexList;
     }
+    
+    // code that returns the reverse complement of a string
+    private static String complement(String item) {
+    	// the reverse complement (RC) of A is T and C is G
+    	
+    	Stack<String> stack = new Stack<String>();
+    	int count = item.length(); // useful in the 
+    	
+    	for(int i = 0; i < count; i++) {
+    		char a = item.charAt(i);
+    		
+    		switch (a) {
+    		
+    		case 'A': stack.add("T");
+    				break;
+    		case 'T': stack.add("A");
+					break;
+    		case 'G': stack.add("C");
+    				break;
+    		case 'C': stack.add("G");
+					break;
+					
+    		}
+
+    	}
+    	String result = "";
+    	while(!stack.isEmpty()) {
+    		result.concat(stack.pop());
+    	}
+    	return result;
+    }
 }
+
+// implement basic motif finding, reverse complement 
