@@ -6,6 +6,7 @@ public class Main
 {
 
     static HashMap<String, ArrayList<Integer>> kmers = new HashMap<>();
+    static HashMap<String, ArrayList<Integer>> reverseComplements = new HashMap<>();
 
     public static void main(String[] args)
     {
@@ -19,6 +20,7 @@ public class Main
         int substringEndBuffer = 200;
 
         int kmerSize = 9;
+        int minKmerOccurences = 2;
 
         try
         {
@@ -60,8 +62,38 @@ public class Main
         System.out.println(genomeSubstring);
 
         InitializeKMers(genomeSubstring, kmerSize);
-        printKmers();
 
+        //printKmers();
+
+        FindMotifs(minKmerOccurences);
+
+    }
+
+    //Finds the most common kmers in the oriC
+    private static void FindMotifs(int minOccurences)
+    {
+        int numberOfOccurences = 0;
+        int occurencesInKmers = 0;
+        int occurencesInReverseComplements = 0;
+
+        for (String key : kmers.keySet())
+        {
+            numberOfOccurences = 0;
+            occurencesInKmers = 0;
+            occurencesInReverseComplements = 0;
+
+            if(kmers.containsKey(key))
+                occurencesInKmers = kmers.get(key).size();
+            if(reverseComplements.containsKey(key))
+                occurencesInReverseComplements = reverseComplements.get(key).size();
+
+            numberOfOccurences = occurencesInKmers + occurencesInReverseComplements;
+
+            if(numberOfOccurences >= minOccurences)
+            {
+                System.out.println(numberOfOccurences + " " + key);
+            }
+        }
     }
 
     //Adds all kmers of size kmerSize to a Map (key == kmer, value == arraylist of indexes where the kmer occurs in genomeSubstring)
@@ -82,6 +114,30 @@ public class Main
                 ArrayList<Integer> kmerList = new ArrayList<>();
                 kmerList.add(i);
                 kmers.put(kmer, kmerList);
+            }
+        }
+
+        InitializeReverseComplements(genomeSubstring, kmerSize);
+    }
+
+    //Adds all kmers of size kmerSize to a Map (key == kmer, value == arraylist of indexes where the kmer occurs in genomeSubstring)
+    private static void InitializeReverseComplements(String genomeSubstring, int kmerSize)
+    {
+        for(int i = 0; i < genomeSubstring.length() - kmerSize + 1; i++)
+        {
+            String reverseComplement = complement(genomeSubstring.substring(i, i + kmerSize));
+
+            //If key already exists, add i to the arraylist corresponding to this kmer
+            if(reverseComplements.containsKey(reverseComplement))
+            {
+                reverseComplements.get(reverseComplement).add(i);
+            }
+            //If key does not yet exist, create an arrayList, add i to it, and then place the list into the map
+            else
+            {
+                ArrayList<Integer> complementList = new ArrayList<>();
+                complementList.add(i);
+                reverseComplements.put(reverseComplement, complementList);
             }
         }
     }
