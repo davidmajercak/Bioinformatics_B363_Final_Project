@@ -61,11 +61,19 @@ public class Main
 
         System.out.println(genomeSubstring);
 
-        InitializeKMers(genomeSubstring, kmerSize);
-
+        //InitializeKMers(genomeSubstring, kmerSize);
         //printKmers();
+        //FindMotifs(minKmerOccurences);
 
-        FindMotifs(minKmerOccurences);
+        for(int i = 3; i <= 12; i++)
+        {
+            System.out.println("Kmers of size " + i);
+            kmerSize = i;
+            kmers.clear();
+            InitializeKMers(genomeSubstring, kmerSize);
+            FindMotifs(minKmerOccurences);
+            System.out.println();
+        }
     }
 
     //Finds the most common kmers in the oriC
