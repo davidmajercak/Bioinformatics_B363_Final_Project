@@ -5,8 +5,8 @@ import java.util.*;
 public class Main
 {
 
-    static HashMap<String, ArrayList<Integer>> kmers = new HashMap<>();
-    static HashMap<String, ArrayList<Integer>> reverseComplements = new HashMap<>();
+    static TreeMap<String, ArrayList<Integer>> kmers = new TreeMap<>();
+    static TreeMap<String, ArrayList<Integer>> reverseComplements = new TreeMap<>();
 
     public static void main(String[] args)
     {
@@ -24,7 +24,7 @@ public class Main
 
         try
         {
-            scanner = new Scanner(new File("C:\\Users\\david\\Downloads\\sequence.fasta"));
+            scanner = new Scanner(new File("C:\\Users\\david\\Downloads\\sequence O157 H7.fasta"));
             while (scanner.hasNextLine())
             {
                 line = scanner.nextLine();
@@ -66,7 +66,6 @@ public class Main
         //printKmers();
 
         FindMotifs(minKmerOccurences);
-
     }
 
     //Finds the most common kmers in the oriC
@@ -193,7 +192,7 @@ public class Main
     	}
     	String result = "";
     	while(!stack.isEmpty()) {
-    		result.concat(stack.pop());
+    		result += stack.pop();
     	}
     	return result;
     }
