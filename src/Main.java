@@ -74,6 +74,7 @@ public class Main
             FindMotifs(minKmerOccurences);
             System.out.println();
         }
+
     }
 
     //Finds the most common kmers in the oriC
@@ -89,18 +90,63 @@ public class Main
             kmerOccurences = 0;
             reverseComplementOccurences = 0;
 
+            //Check if kmers contains the kmer and set kmerOccurences
             if(kmers.containsKey(key))
                 kmerOccurences = kmers.get(key).size();
+            //Check if kmers contains the complement and set reverseComplementOccurences
             if(kmers.containsKey(complement(key)))
                 reverseComplementOccurences += kmers.get(complement(key)).size();
 
             numberOfOccurences = kmerOccurences + reverseComplementOccurences;
+
+            numberOfOccurences += findNumOccurencesFromNeighborhood(key);
+            numberOfOccurences += findNumOccurencesFromNeighborhood(complement(key));
 
             if(numberOfOccurences >= minOccurences)
             {
                 System.out.println(numberOfOccurences + " " + key);
             }
         }
+    }
+
+    private static int findNumOccurencesFromNeighborhood(String kmer)
+    {
+        ArrayList<String> list = generateNeighborhood(kmer);
+        int neighborhoodOccurences = 0;
+
+        for(int i = 0; i < list.size(); i++)
+        {
+            if(kmers.containsKey(list.get(i)))
+            {
+                neighborhoodOccurences += kmers.get(list.get(i)).size();
+            }
+        }
+
+        return neighborhoodOccurences;
+    }
+
+    private static ArrayList<String> generateNeighborhood(String s)
+    {
+        Character[] nucleotides = {'A', 'T', 'G', 'C'};
+
+        ArrayList<String> result = new ArrayList<>();
+
+        //Create a StringBuilder version of the passed in string
+        StringBuilder temp = new StringBuilder(s);
+
+        for(int i = 0; i < s.length(); i++)
+        {
+            for(int n = 0; n < nucleotides.length; n++)
+            {
+                temp = new StringBuilder(s);
+                temp.setCharAt(i, nucleotides[n]);
+
+                if(!temp.toString().equals(s))
+                    result.add(temp.toString());
+            }
+        }
+
+        return result;
     }
 
     //Adds all kmers of size kmerSize to a Map (key == kmer, value == arraylist of indexes where the kmer occurs in genomeSubstring)
@@ -205,5 +251,3 @@ public class Main
     	return result;
     }
 }
-
-// implement basic motif finding, reverse complement 
