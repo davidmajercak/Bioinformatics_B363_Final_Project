@@ -1,12 +1,25 @@
+import javax.sound.midi.SysexMessage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+class motifTuple implements Comparable<motifTuple>
+{
+    int numberOfOccurences;
+    String motif;
+
+    @Override
+    public int compareTo(motifTuple o)
+    {
+        return Integer.compare(o.numberOfOccurences, this.numberOfOccurences);
+    }
+}
+
 public class Main
 {
 
-    static TreeMap<String, ArrayList<Integer>> kmers = new TreeMap<>();
-    static TreeMap<String, ArrayList<Integer>> reverseComplements = new TreeMap<>();
+    static HashMap<String, ArrayList<Integer>> kmers = new HashMap<>();
+    static HashMap<String, ArrayList<Integer>> reverseComplements = new HashMap<>();
 
     public static void main(String[] args)
     {
@@ -71,18 +84,24 @@ public class Main
             kmerSize = i;
             kmers.clear();
             InitializeKMers(genomeSubstring, kmerSize);
-            FindMotifs(minKmerOccurences);
+
+            ArrayList<motifTuple> results = FindMotifs(minKmerOccurences);
+            Collections.sort(results);
+            printMotifs(results);
+
             System.out.println();
         }
 
     }
 
     //Finds the most common kmers in the oriC
-    private static void FindMotifs(int minOccurences)
+    private static ArrayList<motifTuple> FindMotifs(int minOccurences)
     {
         int numberOfOccurences = 0;
         int kmerOccurences = 0;
         int reverseComplementOccurences = 0;
+
+        ArrayList<motifTuple> motifResults = new ArrayList<>();
 
         for (String key : kmers.keySet())
         {
@@ -104,9 +123,16 @@ public class Main
 
             if(numberOfOccurences >= minOccurences)
             {
-                System.out.println(numberOfOccurences + " " + key);
+                motifTuple temp = new motifTuple();
+                temp.numberOfOccurences = numberOfOccurences;
+                temp.motif = key;
+
+                motifResults.add(temp);
+                //System.out.println(numberOfOccurences + " " + key);
             }
         }
+
+        return motifResults;
     }
 
     private static int findNumOccurencesFromNeighborhood(String kmer)
@@ -168,6 +194,14 @@ public class Main
                 kmerList.add(i);
                 kmers.put(kmer, kmerList);
             }
+        }
+    }
+
+    private static void printMotifs(ArrayList<motifTuple> results)
+    {
+        for(int i = 0; i < results.size(); i++)
+        {
+            System.out.println(results.get(i).numberOfOccurences + " " + results.get(i).motif);
         }
     }
 
