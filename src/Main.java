@@ -32,8 +32,11 @@ public class Main
         int substringStartBuffer = 200;
         int substringEndBuffer = 200;
 
-        int kmerSize = 9;
+        int kmerSize;
+
         int minKmerOccurences = 2;
+        int minKmerSize = 5;
+        int maxKmerSize = 12;
 
         try
         {
@@ -73,14 +76,13 @@ public class Main
         String genomeSubstring = genome.substring(substringStartBuffer, substringEndBuffer);
 
         System.out.println(genomeSubstring);
+        System.out.println();
 
-        //InitializeKMers(genomeSubstring, kmerSize);
-        //printKmers();
-        //FindMotifs(minKmerOccurences);
-
-        for(int i = 3; i <= 12; i++)
+        for(int i = minKmerSize; i <= maxKmerSize; i++)
         {
+            System.out.println("-----------------------------------------------");
             System.out.println("Kmers of size " + i);
+            System.out.println("-----------------------------------------------");
             kmerSize = i;
             kmers.clear();
             InitializeKMers(genomeSubstring, kmerSize);
@@ -199,6 +201,8 @@ public class Main
 
     private static void printMotifs(ArrayList<motifTuple> results)
     {
+        if(results.size() == 0)
+            System.out.println("No Results (try changing minKmerOccurences value)");
         for(int i = 0; i < results.size(); i++)
         {
             System.out.println(results.get(i).numberOfOccurences + " " + results.get(i).motif);
