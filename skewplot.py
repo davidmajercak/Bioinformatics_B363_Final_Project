@@ -1,26 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# needs a function that checks the current genome and finds the minimum skew
-def minSkew(genome):
-
-    # if the char is G add 1, if it is C sutract 1
-    skew = 0 # current skew
-    minskew = 0 # current minimum skew
-    location = 0 # location of the minSkew
-    for i in genome:
-        content = genome[i]
-
-        if content == 'G':
-            minskew += 1
-        elif content == 'C':
-            minskew -= 1
-
-        if skew < minskew:
-            minskew = skew
-            location = i
-
-    return minskew, location
 
 # needs a function returns an array of skew.
 # this should take in a genome string, and the location of the minimum skew as well as what the minimum skew is
