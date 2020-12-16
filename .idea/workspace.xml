@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c909b51-945a-43b3-8bfb-a7b62d84f2da" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/sequence O157 H7.fasta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sequence O26 H11.fasta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
@@ -76,7 +74,7 @@
       <updated>1607223408791</updated>
       <workItem from="1607223411355" duration="3314000" />
       <workItem from="1607979718902" duration="131000" />
-      <workItem from="1607979865429" duration="13941000" />
+      <workItem from="1607979865429" duration="15193000" />
     </task>
     <servers />
   </component>

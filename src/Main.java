@@ -38,6 +38,8 @@ public class Main
         String line = "";
         StringBuilder genome = new StringBuilder();
 
+        String sequenceToAnalyze = "O26 H11";
+
         int substringStartBuffer = 200;
         int substringEndBuffer = 200;
 
@@ -49,7 +51,7 @@ public class Main
 
         try
         {
-            scanner = new Scanner(new File("src/sequence O157 H7.fasta"));
+            scanner = new Scanner(new File("src/sequence " + sequenceToAnalyze + ".fasta"));
             while (scanner.hasNextLine())
             {
                 line = scanner.nextLine();
@@ -90,7 +92,7 @@ public class Main
         for(int i = minKmerSize; i <= maxKmerSize; i++)
         {
             System.out.println("-----------------------------------------------");
-            System.out.println("Kmers of size " + i);
+            System.out.println("Kmers of size " + i + " in " + sequenceToAnalyze.replace(" ", ":"));
             System.out.println("-----------------------------------------------");
             kmerSize = i;
             kmers.clear();
