@@ -3,6 +3,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+//E Coli Strains from CDC (outbreaks)
+//O26:H11 https://www.ncbi.nlm.nih.gov/nuccore/CP058682.2?report=fasta https://www.ncbi.nlm.nih.gov/nuccore/CP058682
+//O103:H2 https://www.ncbi.nlm.nih.gov/nuccore/AP010958.1?report=fasta
+//O121:H19 https://www.ncbi.nlm.nih.gov/nuccore/CP022407.1?report=fasta
+//O145:H11 https://www.ncbi.nlm.nih.gov/nuccore/CP027105.1?report=fasta https://www.ncbi.nlm.nih.gov/nuccore/CP027105
+//O157:H7 https://www.ncbi.nlm.nih.gov/nuccore/CP014314.1?report=fasta
+
+
+
 class motifTuple implements Comparable<motifTuple>
 {
     int numberOfOccurences;
@@ -40,7 +49,7 @@ public class Main
 
         try
         {
-            scanner = new Scanner(new File("C:\\Users\\david\\Downloads\\sequence O157 H7.fasta"));
+            scanner = new Scanner(new File("src/sequence O157 H7.fasta"));
             while (scanner.hasNextLine())
             {
                 line = scanner.nextLine();
